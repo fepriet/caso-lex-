@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'caso_lex.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '127.0.0.1:1521/xe',
+        'NAME': '127.0.0.1:1521/xe', #de tener base de datos 19c cambiar a orcl
         'USER': 'c##caso_lex',
         'PASSWORD': 'lex',
         'TEST':{
