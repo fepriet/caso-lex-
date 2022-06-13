@@ -9,8 +9,8 @@ class Nacionalidad(models.Model):
         return self.id_nac
 
 class Estado_civil(models.Model):
-    id_est = models.IntegerField(primary_key=True, verbose_name='Id de nacionalidad')
-    descripcion = models.CharField(max_length=15,verbose_name="Nombre de la Categoria")
+    id_est = models.IntegerField(primary_key=True, verbose_name='Id de Estado Civil')
+    descripcion = models.CharField(max_length=15,verbose_name="Estado Civil")
 
     def __str__(self):
         return self.id_est
