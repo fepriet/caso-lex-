@@ -24,7 +24,7 @@ class Region(models.Model):
 
 class Comuna(models.Model):
     nombre= models.CharField(max_length=15,verbose_name="Nombre de la Comuna")
-    id_region = models.ForeignKey(Region,on_delete=models.CASCADE)
+    region = models.ForeignKey(Region,on_delete=models.CASCADE)
     
     def __str__(self):
         return self.nombre
@@ -37,22 +37,12 @@ class Cliente(models.Model):
     ap_paterno=models.CharField(max_length=20,verbose_name="Apellido Paterno")
     ap_materno=models.CharField(max_length=20,verbose_name="Apellido Materno")
     direccion=models.CharField(max_length=50,verbose_name="Direccion")
-    id_comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE)
-    id_nacionalidad = models.ForeignKey(Nacionalidad,on_delete=models.CASCADE)
-    id_estado_civil = models.ForeignKey(EstadoCivil,on_delete=models.CASCADE)
+    comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE, default=1)
+    nacionalidad = models.ForeignKey(Nacionalidad,on_delete=models.CASCADE, default=1)
+    estado_civil = models.ForeignKey(EstadoCivil,on_delete=models.CASCADE, default=1)
     
     def __str__(self):
-        return self.rut
-    
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Cliente.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.cliente.save()
-
+        return self.usuario.username
 
 class Estadocontrato(models.Model):
     descripcion = models.CharField(max_length=15,verbose_name="Estado Contrato")

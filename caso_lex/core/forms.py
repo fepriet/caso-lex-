@@ -13,13 +13,6 @@ class NuevoUsuario(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
-    def save(self, commit=True):
-        user = super(NuevoUsuario, self).save(commit=False)
-        user.email = self.cleaned_data['email']
-        if commit:
-            user.save()
-        return user
-
 #Este formulario procesa los datos de usuario en caso de necesitar actualizarlos
 class FormularioUsuario(forms.ModelForm):
     email = forms.EmailField(required=True)
@@ -32,4 +25,4 @@ class FormularioUsuario(forms.ModelForm):
 class FormularioCliente(forms.ModelForm):
     class Meta:
         model = Cliente
-        fields = ('p_nombre', 's_nombre', 'ap_paterno', 'ap_materno', 'direccion')
+        fields = ('rut', 'p_nombre', 's_nombre', 'ap_paterno', 'ap_materno', 'direccion', 'comuna', 'nacionalidad', 'estado_civil')

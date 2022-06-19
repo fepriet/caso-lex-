@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .forms import NuevoUsuario, FormularioCliente, FormularioUsuario
 
 # Create your views here.
 def home(request):
 
-    return render(request,'core/home.html')
+    return render(request,'home.html')
 
 #Registro de usuario con datos propios del cliente.
 def registro(request):
@@ -14,15 +14,18 @@ def registro(request):
         form_usuario = NuevoUsuario(request.POST)
         form_cliente = FormularioCliente(request.POST)
         if form_usuario.is_valid() and form_cliente.is_valid():
-            user = form_usuario.save()
+            usuario = form_usuario.save()
+            usuario.refresh_from_db()
+            form_cliente = FormularioCliente(request.POST, instance=usuario.cliente)
+            form_cliente.full_clean()
             form_cliente.save()
-            login(request, user)
-            return redirect('perfil_cliente')
-    datos = {
-        'form_usuario' : NuevoUsuario(),
-        'form_cliente' : FormularioCliente()
-    }
-    return render(request, 'registro.html', datos)
+            return redirect('home')
+    else:
+        datos = {
+            'form_usuario' : NuevoUsuario(),
+            'form_cliente' : FormularioCliente()
+        }
+        return render(request, 'registro.html', datos)
 
 #View que realiza la operacion de login. Solo le interesa el nombre de usuario y la contraseña.
 def login(request):

@@ -1,0 +1,7 @@
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        {{ formulario.as_p}}
+        <input type="submit" class="btn btn-danger" id="login" value="Iniciar Sesion">
+    </form>
+</body>
