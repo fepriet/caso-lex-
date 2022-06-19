@@ -75,17 +75,22 @@ WSGI_APPLICATION = 'caso_lex.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': '127.0.0.1:1521/xe', #de tener base de datos 19c cambiar a orcl
-        'USER': 'c##caso_lex',
-        'PASSWORD': 'lex',
-        'TEST':{
-            'USER': 'default_test',
-            'TBLSPACE': 'default_test_tbls',
-            'TBLSPACE_TMP': 'default_test_tbls_tmp',
-        },
-    },
+    #Para efectos de prueba colocare la db de SQLITE incluida
+    #'default': {
+     #   'ENGINE': 'django.db.backends.oracle',
+      #  'NAME': '127.0.0.1:1521/xe', #de tener base de datos 19c cambiar a orcl
+       # 'USER': 'c##caso_lex',
+        #'PASSWORD': 'lex',
+        #'TEST':{
+         #   'USER': 'default_test',
+          #  'TBLSPACE': 'default_test_tbls',
+           # 'TBLSPACE_TMP': 'default_test_tbls_tmp',
+        #},
+    #},
+    'default' :{
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 

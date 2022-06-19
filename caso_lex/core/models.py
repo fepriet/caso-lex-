@@ -1,8 +1,12 @@
+from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 # Create your models here.
 class Nacionalidad(models.Model):
-    descripcion = models.CharField(max_length=30,verbose_name="Nombre de la Categoria")
+    descripcion = models.CharField(max_length=30,verbose_name="Nombre de la Nacionalidad")
 
     def __str__(self):
         return self.descripcion
@@ -39,6 +43,16 @@ class Cliente(models.Model):
     
     def __str__(self):
         return self.rut
+    
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Cliente.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.cliente.save()
+
 
 class Estadocontrato(models.Model):
     descripcion = models.CharField(max_length=15,verbose_name="Estado Contrato")
@@ -76,6 +90,8 @@ class Cuotas(models.Model):
     contrato = models.ManyToManyField(Contrato, through='DetalleCuotas')
 
 class DetalleCuotas(models.Model):
+    cuota = models.ForeignKey(Cuotas, on_delete=models.CASCADE)
+    contrato = models.ForeignKey(Contrato, on_delete=models.CASCADE)
     pagado = models.BooleanField(verbose_name="Se encuentra o no pagada la cuota")
 
 class Corte(models.Model):
@@ -97,8 +113,8 @@ class Causa(models.Model):
     fecha_ingreso = models.DateField()
     estado = models.CharField(max_length=100, verbose_name="Estado de la causa")
     abogados = models.ManyToManyField(Abogado)
-    tribunal = models.ForeignKey(Tribunal)
-    contrato = models.ForeignKey(Contrato)
+    tribunal = models.ForeignKey(Tribunal, on_delete=models.CASCADE)
+    contrato = models.ForeignKey(Contrato, on_delete=models.CASCADE)
     clientes = models.ManyToManyField(Cliente)
 
     def __str__(self):
@@ -108,7 +124,7 @@ class Tramite(models.Model):
     folio = models.IntegerField(verbose_name="Folio del presente tramite")
     foja = models.IntegerField(verbose_name="Foja en el archivador")
     documento = models.FileField(verbose_name="Copia del archivo encontrado en la pagina del poder judicial", blank=True)
-    etapa = models.CharField(verbose_name="Etapa en la que fue introducido")
+    etapa = models.CharField(max_length=200, verbose_name="Etapa en la que fue introducido")
     descripcion_tramite = models.TextField()
     fecha_tramite = models.DateField(verbose_name="Fecha del tramite")
     causa = models.ForeignKey(Causa, on_delete=models.CASCADE)
