@@ -1,0 +1,12 @@
+<body>
+    <table>
+        {% for tr in tramites %}
+        <tr>
+            <td>{{tr.folio}}</td>
+            <td>{{tr.foja}}</td>
+            <td>{{tr.etapa}}</td>
+            <td>{{tr.fecha_tramite}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>

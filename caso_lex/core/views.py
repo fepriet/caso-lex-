@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .forms import NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente
-from .models import Causa, Cliente
+from .models import Causa, Cliente, Tramite
 from django.db import transaction
 #from django.contrib.auth.models import User
 
@@ -96,6 +96,16 @@ def mod_cliente(request):
         }
         return render(request, 'mod_cliente.html', datos)
 
+#View para ver los datos especificos de una causa
+#Este requiere la id de la causa en la url
+def detalle_causa(request, id):
+    causa_actual = Causa.objects.get(id=id)
+    tramites = Tramite.objects.all().filter(causa__id=id)
+    datos = {
+        'causa': causa_actual,
+        'tramites': tramites
+    }
+    return render(request, 'detalle_causa.html', datos)
 
 
 #View para eliminar todos los usuarios
