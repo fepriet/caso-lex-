@@ -31,7 +31,6 @@ class Comuna(models.Model):
 
 #La clase "Cliente" se refiere a cualquier usuario que interactue en cualquier nivel con el sistema
 #Idealmente uno le cambiaria el nombre a Usuario pero, para evitar que las demas tablas se rompan, se mantiene como Cliente
-#Si el usuario tiene is_tecnico => False y is_abogado => False, es un cliente comun
 class Cliente(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     rut = models.CharField(max_length=13,verbose_name="Rut", unique=True)

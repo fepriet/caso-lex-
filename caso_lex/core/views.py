@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .forms import NuevoUsuario, FormularioCliente, FormularioUsuario
+from .forms import NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente
 from .models import Causa, Cliente
+from django.db import transaction
 #from django.contrib.auth.models import User
 
 # Create your views here.
@@ -57,7 +58,7 @@ def login_redirect(request):
         if request.user.is_staff:
             return redirect('controlador_staff')
         else:
-            return redirect('perfil_cliente')
+            return redirect('panel')
     else:
         return redirect('index')
 
@@ -75,6 +76,25 @@ def panel_control(request):
     }
     
     return render(request, 'panel_cliente.html', datos)
+
+#View para el formulario de modificacion de datos del cliente
+@transaction.atomic
+def mod_cliente(request):
+    if request.method == "POST":
+        form_usuario = FormularioModUsuario(request.POST, instance=request.user.id)
+        form_cliente = FormularioModCliente(request.POST, instance=request.user.cliente)
+        if form_usuario.is_valid() and form_cliente.is_valid():
+            form_usuario.save()
+            form_cliente.save()
+            return redirect('mod_cliente')
+        else:
+            return redirect('mod_cliente')
+    else:
+        datos = {
+            'form_usuario' : FormularioModUsuario(instance=request.user.id),
+            'form_cliente' : FormularioModCliente(instance=request.user.cliente)
+        }
+        return render(request, 'mod_cliente.html', datos)
 
 #View para eliminar todos los usuarios
 #def borrar_clientes(request):

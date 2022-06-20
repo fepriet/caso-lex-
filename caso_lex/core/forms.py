@@ -14,7 +14,7 @@ class NuevoUsuario(UserCreationForm):
         fields = ('username', 'email', 'password1', 'password2')
 
 #Este formulario procesa los datos de usuario en caso de necesitar actualizarlos
-class FormularioUsuario(forms.ModelForm):
+class FormularioModUsuario(forms.ModelForm):
     email = forms.EmailField(required=True)
     
     class Meta:
@@ -26,3 +26,8 @@ class FormularioCliente(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = ('rut', 'p_nombre', 's_nombre', 'ap_paterno', 'ap_materno', 'direccion', 'comuna', 'nacionalidad', 'estado_civil')
+
+class FormularioModCliente(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields = ('p_nombre', 's_nombre', 'ap_paterno', 'ap_materno', 'direccion', 'comuna', 'nacionalidad', 'estado_civil')
