@@ -81,20 +81,22 @@ def panel_control(request):
 @transaction.atomic
 def mod_cliente(request):
     if request.method == "POST":
-        form_usuario = FormularioModUsuario(request.POST, instance=request.user.id)
+        form_usuario = FormularioModUsuario(request.POST, instance=request.user)
         form_cliente = FormularioModCliente(request.POST, instance=request.user.cliente)
         if form_usuario.is_valid() and form_cliente.is_valid():
             form_usuario.save()
             form_cliente.save()
-            return redirect('mod_cliente')
+            return redirect('perfil')
         else:
-            return redirect('mod_cliente')
+            return redirect('perfil')
     else:
         datos = {
-            'form_usuario' : FormularioModUsuario(instance=request.user.id),
+            'form_usuario' : FormularioModUsuario(instance=request.user),
             'form_cliente' : FormularioModCliente(instance=request.user.cliente)
         }
         return render(request, 'mod_cliente.html', datos)
+
+
 
 #View para eliminar todos los usuarios
 #def borrar_clientes(request):
