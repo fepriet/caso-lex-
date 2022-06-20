@@ -1,0 +1,14 @@
+<body>
+    usuario: {{user}}
+    id: {{usuario}}
+    <table>
+        {% for c in causas %}
+        <tr>
+            <td>{{c.caratulado}}</td>
+            <td>{{c.fecha_ingreso}}</td>
+            <td>{{c.estado}}</td>
+            <td>{{c.tribunal}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>

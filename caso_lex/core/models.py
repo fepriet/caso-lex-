@@ -29,6 +29,9 @@ class Comuna(models.Model):
     def __str__(self):
         return self.nombre
 
+#La clase "Cliente" se refiere a cualquier usuario que interactue en cualquier nivel con el sistema
+#Idealmente uno le cambiaria el nombre a Usuario pero, para evitar que las demas tablas se rompan, se mantiene como Cliente
+#Si el usuario tiene is_tecnico => False y is_abogado => False, es un cliente comun
 class Cliente(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     rut = models.CharField(max_length=13,verbose_name="Rut", unique=True)
@@ -40,6 +43,8 @@ class Cliente(models.Model):
     comuna = models.ForeignKey(Comuna, on_delete=models.CASCADE, default=1)
     nacionalidad = models.ForeignKey(Nacionalidad,on_delete=models.CASCADE, default=1)
     estado_civil = models.ForeignKey(EstadoCivil,on_delete=models.CASCADE, default=1)
+    is_abogado = models.BooleanField(default=False)
+    is_tecnico = models.BooleanField(default=False)
     
     def __str__(self):
         return self.usuario.username
@@ -51,7 +56,6 @@ class Estadocontrato(models.Model):
         return self.descripcion
 
 class TecnicoJuridico(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     rut = models.CharField(max_length=13, verbose_name="Rut", unique=True)
     nombre = models.CharField(max_length=50, verbose_name="Nombre del Tecnico Juridico")
 
@@ -59,9 +63,8 @@ class TecnicoJuridico(models.Model):
         return self.rut
 
 class Abogado(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     rut = models.CharField(max_length=13, verbose_name="Rut", unique=True)
-    nombre = models.CharField(max_length=50, verbose_name="Nombre del Tecnico Juridico")
+    nombre = models.CharField(max_length=50, verbose_name="Nombre del Abogado")
 
     def __str__(self):
         return self.rut
