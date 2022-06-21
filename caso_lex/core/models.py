@@ -127,4 +127,4 @@ class SolicitudServicio(models.Model):
     solicitante = models.ForeignKey(User, on_delete=models.CASCADE)
     resumen_solicitud = models.CharField(max_length=200, verbose_name="Resumen de la solicitud, maximo 200 caracteres")
     solicitud = models.TextField(verbose_name="Describa con mayor detalle la solicitud")
-    fecha_solicitud = models.DateField(auto_now=True)
+    fecha_solicitud = models.DateField(auto_now=True, editable=False)

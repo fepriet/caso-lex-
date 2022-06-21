@@ -12,4 +12,5 @@ urlpatterns = [
     path('login_redirect', views.login_redirect, name='login_redirect'),
     path('logout', views.cierre_sesion, name='logout'),
     path('add_solicitud', views.add_solicitud, name='add_solicitud'),
+    path('del_solicitud/<id>', views.del_solicitud, name='del_solicitud'),
 ]

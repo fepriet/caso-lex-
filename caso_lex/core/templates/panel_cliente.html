@@ -21,7 +21,7 @@
     </nav>
     usuario: {{user}}
     id: {{usuario}}
-    <table class="table">
+    <table class="table table-striped">
         <tr>
             <th>Caratulado</th>
             <th>Rol</th>
@@ -39,6 +39,24 @@
         </tr>
         {% endfor %}
     </table>
+    {% if solicitudes %}
+    <table class="table table-striped">
+        <tr>
+            <th>ID solicitud</th>
+            <th>Resumen solicitud</th>
+            <th>Fecha de ingreso</th>
+            <th>Eliminar</th>
+        </tr>
+        {% for s in solicitudes %}
+        <tr>
+            <td>{{s.id}}</td>
+            <td>{{s.resumen_solicitud}}</td>
+            <td>{{s.fecha_solicitud}}</td>
+            <td><a href="{% url 'del_solicitud' s.id %}">Eliminar solicitud</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
     <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
 </body>
 

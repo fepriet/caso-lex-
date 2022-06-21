@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .forms import FormularioAddTramites, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente, FormularioSolicitud
-from .models import Causa, Cliente, Tramite
+from .models import Causa, Cliente, SolicitudServicio, Tramite
 from django.db import transaction
 from django.contrib.auth.models import User
 
@@ -65,12 +65,18 @@ def panel_control(request):
     usuario_actual = request.user.id
     if request.user.cliente.is_abogado:
         causas = Causa.objects.all()
-    else:
-        causas = Causa.objects.all().filter(clientes__usuario__id=usuario_actual)
-    datos = {
+        datos = {
         'causas' : causas,
         'usuario': usuario_actual
     }
+    else:
+        causas = Causa.objects.all().filter(clientes__usuario__id=usuario_actual)
+        solicitudes = SolicitudServicio.objects.all().filter(solicitante__id=usuario_actual)
+        datos = {
+            'causas' : causas,
+            'usuario': usuario_actual,
+            'solicitudes' : solicitudes
+        }
     
     return render(request, 'panel_cliente.html', datos)
 
@@ -144,6 +150,12 @@ def add_solicitud(request):
             'formulario' : FormularioSolicitud()
         }
         return render(request, 'add_solicitud.html', datos)
+
+#Eliminar solicitudes
+def del_solicitud(request, id):
+    solicitud = SolicitudServicio.objects.get(id=id)
+    solicitud.delete()
+    return redirect('panel')
 
 #View para eliminar todos los usuarios
 #def borrar_clientes(request):
