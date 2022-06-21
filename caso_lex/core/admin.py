@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Abogado, Causa, Cliente, Contrato, Corte, Region, Nacionalidad, EstadoCivil, Comuna, TecnicoJuridico, Tramite, Tribunal
+from .models import Abogado, Causa, Cliente, Contrato, Corte, Region, Nacionalidad, EstadoCivil, Comuna, SolicitudServicio, TecnicoJuridico, Tramite, Tribunal
 
 
 # Register your models here.
@@ -15,3 +15,4 @@ admin.site.register(Causa)
 admin.site.register(Contrato)
 admin.site.register(TecnicoJuridico)
 admin.site.register(Tramite)
+admin.site.register(SolicitudServicio)

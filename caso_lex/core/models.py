@@ -1,8 +1,10 @@
+from datetime import date
 from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from datetime import date
 
 # Create your models here.
 class Nacionalidad(models.Model):
@@ -120,3 +122,9 @@ class Tramite(models.Model):
     descripcion_tramite = models.TextField()
     fecha_tramite = models.DateField(verbose_name="Fecha del tramite")
     causa = models.ForeignKey(Causa, on_delete=models.CASCADE)
+
+class SolicitudServicio(models.Model):
+    solicitante = models.ForeignKey(User, on_delete=models.CASCADE)
+    resumen_solicitud = models.CharField(max_length=200, verbose_name="Resumen de la solicitud, maximo 200 caracteres")
+    solicitud = models.TextField(verbose_name="Describa con mayor detalle la solicitud")
+    fecha_solicitud = models.DateField(auto_now=True)

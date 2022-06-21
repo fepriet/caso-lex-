@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Cliente, Tramite
+from .models import Cliente, Tramite, SolicitudServicio
 
 #Formularios de creacion de usuarios
 #Primero se utilizara el formulario de creacion de usuario
@@ -36,3 +36,8 @@ class FormularioAddTramites(forms.ModelForm):
     class Meta:
         model = Tramite
         fields = ('folio', 'foja', 'documento', 'etapa', 'descripcion_tramite', 'fecha_tramite')
+
+class FormularioSolicitud(forms.ModelForm):
+    class Meta:
+        model = SolicitudServicio
+        fields = ('resumen_solicitud', 'solicitud')

@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .forms import FormularioAddTramites, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente
+from .forms import FormularioAddTramites, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente, FormularioSolicitud
 from .models import Causa, Cliente, Tramite
 from django.db import transaction
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 
 # Create your views here.
 def home(request):
@@ -118,7 +118,7 @@ def add_tramite(request, id):
             return redirect('perfil')
     else:
         datos = {
-            'form' : FormularioAddTramites
+            'form' : FormularioAddTramites()
         }
         return render(request, 'add_tramite.html', datos)
 
@@ -126,6 +126,24 @@ def add_tramite(request, id):
 def cierre_sesion(request):
     logout(request)
     return redirect('home')
+
+#View para el formulario de ingreso de solicitudes
+@transaction.atomic
+def add_solicitud(request):
+    if request.method == "POST":
+        formulario_solicitud = FormularioSolicitud(request.POST)
+        if formulario_solicitud.is_valid():
+            solicitud = formulario_solicitud.save(commit=False)
+            solicitud.solicitante = request.user
+            solicitud.save()
+            return redirect('panel')
+        else:
+            return redirect('home')
+    else:
+        datos = {
+            'formulario' : FormularioSolicitud()
+        }
+        return render(request, 'add_solicitud.html', datos)
 
 #View para eliminar todos los usuarios
 #def borrar_clientes(request):
