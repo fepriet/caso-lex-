@@ -108,7 +108,7 @@ class Causa(models.Model):
     estado = models.CharField(max_length=100, verbose_name="Estado de la causa")
     abogados = models.ManyToManyField(Abogado)
     tribunal = models.ForeignKey(Tribunal, on_delete=models.CASCADE)
-    contrato = models.ForeignKey(Contrato, on_delete=models.CASCADE)
+    contrato = models.ForeignKey(Contrato, on_delete=models.CASCADE, null=True)
     clientes = models.ManyToManyField(Cliente)
 
     def __str__(self):

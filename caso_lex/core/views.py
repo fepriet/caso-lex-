@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .forms import FormularioAddTramites, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente, FormularioSolicitud
+from .forms import FormularioAddTramites, FormularioCausa, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente, FormularioSolicitud
 from .models import Causa, Cliente, SolicitudServicio, Tramite
 from django.db import transaction
 from django.contrib.auth.models import User
@@ -156,6 +156,22 @@ def del_solicitud(request, id):
     solicitud = SolicitudServicio.objects.get(id=id)
     solicitud.delete()
     return redirect('panel')
+
+#Añadir causas
+#El acceso debe ser limitado solo a abogados
+def add_causa(request):
+    if request.method == "POST":
+        formulario = FormularioCausa(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('panel')
+        else:
+            return redirect('home')
+    else:
+        datos = {
+            'formulario' : FormularioCausa()
+        }
+        return render(request, 'add_causa.html', datos)
 
 #View para eliminar todos los usuarios
 #def borrar_clientes(request):
