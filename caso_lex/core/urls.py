@@ -9,4 +9,6 @@ urlpatterns = [
     path('perfil', views.mod_cliente, name='perfil'),
     path('causa/<id>', views.detalle_causa, name='causa'),
     path('add_tramite/<id>', views.add_tramite, name='add_tramite'),
+    path('login_redirect', views.login_redirect, name='login_redirect'),
+    path('logout', views.cierre_sesion, name='logout'),
 ]

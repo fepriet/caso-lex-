@@ -9,14 +9,27 @@
 </head>
 
 <body>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}">Cerrar sesion</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
     <div class="container-lg">
         <div class="row">
             <div class="col">Caratulado: {{causa.caratulado}}</div>
             <div class="col">ROL: {{causa.rol}}</div>
+            {% if user.cliente.is_abogado %}
             <div class="col"><a href="{% url 'add_tramite' causa.id%}">Añadir tramites</a></div>
+            {% endif %}
         </div>
         <div class="row">
-            <table class="table">
+            <table class="table table-striped">
                 <tr>
                     <th>Folio</th>
                     <th>Foja</th>

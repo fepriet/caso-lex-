@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .forms import FormularioAddTramites, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente
 from .models import Causa, Cliente, Tramite
@@ -40,7 +40,7 @@ def inicio_sesion(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect('login_redirect')
             else:
                 return redirect('index')
         else:
@@ -55,10 +55,7 @@ def inicio_sesion(request):
 #Requiere debuggear y trabajar con el sistema de accesos
 def login_redirect(request):
     if request.user.is_authenticated:
-        if request.user.is_staff:
-            return redirect('controlador_staff')
-        else:
-            return redirect('panel')
+        return redirect('panel')
     else:
         return redirect('index')
 
@@ -124,6 +121,11 @@ def add_tramite(request, id):
             'form' : FormularioAddTramites
         }
         return render(request, 'add_tramite.html', datos)
+
+##Cierre de sesion del usuario
+def cierre_sesion(request):
+    logout(request)
+    return redirect('home')
 
 #View para eliminar todos los usuarios
 #def borrar_clientes(request):

@@ -1,14 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+</head>
+
 <body>
+    <nav class="navbar">
+        <div class="container-fluid">
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}">Cerrar sesion</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
     usuario: {{user}}
     id: {{usuario}}
-    <table>
+    <table class="table">
+        <tr>
+            <th>Caratulado</th>
+            <th>Rol</th>
+            <th>Fecha de Ingreso</th>
+            <th>Estado</th>
+            <th>Tribunal</th>
+        </tr>
         {% for c in causas %}
         <tr>
-            <td>{{c.caratulado}}</td>
+            <td><a href="{% url 'causa' c.id %}">{{c.caratulado}}</a></td>
+            <td>{{c.rol}}</td>
             <td>{{c.fecha_ingreso}}</td>
             <td>{{c.estado}}</td>
             <td>{{c.tribunal}}</td>
         </tr>
         {% endfor %}
     </table>
+    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
 </body>
+
+</html>
