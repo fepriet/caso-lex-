@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .forms import NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente
+from .forms import FormularioAddTramites, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente
 from .models import Causa, Cliente, Tramite
 from django.db import transaction
 #from django.contrib.auth.models import User
@@ -107,6 +107,23 @@ def detalle_causa(request, id):
     }
     return render(request, 'detalle_causa.html', datos)
 
+#View para añadir tramites a una causa
+#El ID corresponde al ID de la causa a la cual se añadira el tramite
+def add_tramite(request, id):
+    if request.method == "POST":
+        formulario_tramite = FormularioAddTramites(request.POST)
+        if formulario_tramite.is_valid():
+            tramite = formulario_tramite.save(commit=False)
+            tramite.causa = Causa.objects.get(id=id)
+            tramite.save()
+            return redirect('home')
+        else:
+            return redirect('perfil')
+    else:
+        datos = {
+            'form' : FormularioAddTramites
+        }
+        return render(request, 'add_tramite.html', datos)
 
 #View para eliminar todos los usuarios
 #def borrar_clientes(request):

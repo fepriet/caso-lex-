@@ -8,4 +8,5 @@ urlpatterns = [
     path('panel', views.panel_control, name='panel'),
     path('perfil', views.mod_cliente, name='perfil'),
     path('causa/<id>', views.detalle_causa, name='causa'),
+    path('add_tramite/<id>', views.add_tramite, name='add_tramite'),
 ]

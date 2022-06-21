@@ -1,12 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
+</head>
+
 <body>
-    <table>
-        {% for tr in tramites %}
-        <tr>
-            <td>{{tr.folio}}</td>
-            <td>{{tr.foja}}</td>
-            <td>{{tr.etapa}}</td>
-            <td>{{tr.fecha_tramite}}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="container-lg">
+        <div class="row">
+            <div class="col">Caratulado: {{causa.caratulado}}</div>
+            <div class="col">ROL: {{causa.rol}}</div>
+            <div class="col"><a href="{% url 'add_tramite' causa.id%}">Añadir tramites</a></div>
+        </div>
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <th>Folio</th>
+                    <th>Foja</th>
+                    <th>Tramite</th>
+                    <th>Fecha</th>
+                </tr>
+                {% for tr in tramites %}
+                <tr>
+                    <td>{{tr.folio}}</td>
+                    <td>{{tr.foja}}</td>
+                    <td>{{tr.etapa}}</td>
+                    <td>{{tr.fecha_tramite}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
 </body>
+
+</html>
