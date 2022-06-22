@@ -17,4 +17,5 @@ urlpatterns = [
     path('add_contrato', views.add_contrato, name='add_contrato'),
     path('panel_tecnico', views.panel_tecnico, name='panel_tecnico'),
     path('del_contrato/<id>', views.del_contrato, name='del_contrato'),
+    path('mod_contrato/<id>', views.mod_contrato, name='mod_contrato'),
 ]

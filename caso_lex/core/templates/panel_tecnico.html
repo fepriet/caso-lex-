@@ -57,7 +57,7 @@
             <td>{{c.valor}}</td>
             <td>Provisional</td>
             <td><a href="{% url 'del_contrato' c.id %}">Eliminar</a></td>
-            <td>Modificar</td>
+            <td><a href="{% url 'mod_contrato' c.id %}">Modificar</a></td>
         </tr>
         {% endfor %}
     </table>

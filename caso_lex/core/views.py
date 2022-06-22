@@ -194,6 +194,19 @@ def del_contrato(request, id):
     contrato.delete()
     return render('panel_tecnico')
 
+def mod_contrato(request, id):
+    contrato = Contrato.objects.get(id=id)
+    datos = {
+        'formulario' : FormularioContrato(instance=contrato) 
+    }
+    if request.method == "POST":
+        formulario = FormularioContrato(instance=contrato)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('panel_tecnico')
+    else:
+        return render(request, 'mod_contrato.html', datos)
+
 #Panel de control del tecnico juridico
 def panel_tecnico(request):
     solicitudes = SolicitudServicio.objects.all()
