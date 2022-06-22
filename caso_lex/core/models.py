@@ -73,8 +73,11 @@ class Abogado(models.Model):
 class Contrato(models.Model):
     #Un valor de null quiere decir que el contrato es pro bono, se paga por resultado o caulquier otro caso especial
     valor = models.IntegerField(verbose_name="Valor total del contato", null=True)
-    archivo_contrato = models.FileField(verbose_name="Archivo del contrato")
-    tecnico_juridico = models.ForeignKey(TecnicoJuridico, on_delete=models.CASCADE, verbose_name="Tecnico a cargo del contrato")
+    archivo_contrato = models.FileField(verbose_name="Archivo del contrato", blank=True)
+    nombre_contrato = models.CharField(max_length=100, verbose_name="Nombre del tipo de contrato")
+
+    def __str__(self):
+        return self.nombre_contrato
 
 class Cuotas(models.Model):
     valor = models.IntegerField(verbose_name="Valor de la cuota")

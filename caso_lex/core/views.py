@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .forms import FormularioAddTramites, FormularioCausa, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente, FormularioSolicitud
-from .models import Causa, Cliente, SolicitudServicio, Tramite
+from .forms import FormularioAddTramites, FormularioCausa, FormularioContrato, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente, FormularioSolicitud
+from .models import Causa, Cliente, SolicitudServicio, Tramite, Contrato
 from django.db import transaction
 from django.contrib.auth.models import User
 
@@ -172,6 +172,38 @@ def add_causa(request):
             'formulario' : FormularioCausa()
         }
         return render(request, 'add_causa.html', datos)
+
+#Añadir contratos
+#Esto deberia de estar limitado solo al tecnico juridoc
+def add_contrato(request):
+    if request.method == "POST":
+        formulario = FormularioContrato(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('panel_tecnico')
+        else:
+            return redirect('home')
+    else:
+        datos = {
+            'formulario' : FormularioContrato()
+        }
+        return render(request, 'add_contrato.html', datos)
+
+def del_contrato(request, id):
+    contrato = Contrato.objects.get(id=id)
+    contrato.delete()
+    return render('panel_tecnico')
+
+#Panel de control del tecnico juridico
+def panel_tecnico(request):
+    solicitudes = SolicitudServicio.objects.all()
+    contratos = Contrato.objects.all()
+    datos = {
+        'solicitudes' : solicitudes,
+        'contratos' : contratos
+    }
+
+    return render(request, 'panel_tecnico.html', datos)
 
 #View para eliminar todos los usuarios
 #def borrar_clientes(request):
