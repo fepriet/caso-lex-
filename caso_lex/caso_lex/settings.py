@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from django.contrib.messages import constants as mensaje_de_error
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,3 +136,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MESSAGE_TAGS={
+    mensaje_de_error.DEBUG: 'debug',
+    mensaje_de_error.INFO: 'info',
+    mensaje_de_error.SUCCESS: 'success',
+    mensaje_de_error.WARNING: 'warning',
+    mensaje_de_error.ERROR: 'danger',
+}

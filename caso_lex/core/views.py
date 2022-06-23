@@ -5,6 +5,7 @@ from .forms import FormularioAddTramites, FormularioCausa, FormularioContrato, N
 from .models import Causa, Cliente, SolicitudServicio, Tramite, Contrato
 from django.db import transaction
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 # Create your views here.
 def home(request):
@@ -23,6 +24,11 @@ def registro(request):
             form_cliente.full_clean()
             form_cliente.save()
             return redirect('home')
+        #else para mostrar errores en el registro
+        '''else:
+            for msg in form.error_messages:
+                messages.error(request, form.error_messages[msg])
+                return render(request,"core/registro.html",{"form":form})'''   
     else:
         datos = {
             'form_usuario' : NuevoUsuario(),
@@ -42,9 +48,9 @@ def inicio_sesion(request):
                 login(request, user)
                 return redirect('login_redirect')
             else:
-                return redirect('index')
+                messages.error(request, "Usuario no valido")
         else:
-            return redirect('index')
+            messages.error(request,"Informacion incorrecta")
     datos = {
         'formulario': AuthenticationForm()
     }
