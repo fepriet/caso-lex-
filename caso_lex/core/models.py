@@ -131,3 +131,15 @@ class SolicitudServicio(models.Model):
     resumen_solicitud = models.CharField(max_length=200, verbose_name="Resumen de la solicitud, maximo 200 caracteres")
     solicitud = models.TextField(verbose_name="Describa con mayor detalle la solicitud")
     fecha_solicitud = models.DateField(auto_now=True, editable=False)
+
+##Los estados para los presupuestos pueden ser Ingresado, Aceptado o Rechazado
+class EstadoPresupuesto(models.Model):
+    descripcion = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.descripcion
+
+class Presupuesto(models.Model):
+    solicitud = models.ForeignKey(SolicitudServicio, on_delete=models.CASCADE)
+    estado = models.ForeignKey(EstadoPresupuesto, on_delete=models.CASCADE)
+    valor = models.IntegerField()
