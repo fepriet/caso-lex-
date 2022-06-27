@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .forms import FormularioAddTramites, FormularioCausa, FormularioContrato, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente, FormularioSolicitud
-from .models import Causa, Cliente, SolicitudServicio, Tramite, Contrato
+from .forms import FormularioAddTramites, FormularioCausa, FormularioContrato, FormularioPresupuesto, NuevoUsuario, FormularioCliente, FormularioModUsuario, FormularioModCliente, FormularioSolicitud
+from .models import Causa, Cliente, EstadoPresupuesto, Presupuesto, SolicitudServicio, Tramite, Contrato
 from django.db import transaction
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -71,9 +71,11 @@ def panel_control(request):
     usuario_actual = request.user.id
     if request.user.cliente.is_abogado:
         causas = Causa.objects.all()
+        presupuestos = Presupuesto.objects.all()
         datos = {
         'causas' : causas,
-        'usuario': usuario_actual
+        'usuario': usuario_actual,
+        'presupuestos' : presupuestos
     }
     else:
         causas = Causa.objects.all().filter(clientes__usuario__id=usuario_actual)
@@ -206,7 +208,7 @@ def mod_contrato(request, id):
         'formulario' : FormularioContrato(instance=contrato) 
     }
     if request.method == "POST":
-        formulario = FormularioContrato(instance=contrato)
+        formulario = FormularioContrato(request.POST, instance=contrato)
         if formulario.is_valid():
             formulario.save()
             return redirect('panel_tecnico')
@@ -223,6 +225,34 @@ def panel_tecnico(request):
     }
 
     return render(request, 'panel_tecnico.html', datos)
+
+def add_presupuesto(request, id):
+    solicitud = SolicitudServicio.objects.get(id=id)
+    datos = {
+        'formulario' : FormularioPresupuesto(),
+        'solicitud' : solicitud
+    }
+    if request.method == "POST":
+        formulario = FormularioPresupuesto(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect('panel_tecnico')
+        else:
+            return redirect('home')
+    else:
+        return render(request, 'add_presupuesto.html', datos)
+
+def aceptar_presupuesto(request, id):
+    presupuesto = Presupuesto.objects.get(id=id)
+    presupuesto.estado = EstadoPresupuesto.objects.get(id=1)
+    presupuesto.save()
+    return redirect('panel')
+
+def rechazar_presupuesto(request, id):
+    presupuesto = Presupuesto.objects.get(id=id)
+    presupuesto.estado = EstadoPresupuesto.objects.get(id=3)
+    presupuesto.save()
+    return redirect('panel')
 
 #View para eliminar todos los usuarios
 #def borrar_clientes(request):

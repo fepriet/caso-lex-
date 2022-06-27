@@ -28,6 +28,7 @@
             <th>Resumen solicitud</th>
             <th>Fecha de ingreso</th>
             <th>Eliminar</th>
+            <th>Crear presupuesto</th>
         </tr>
         {% for s in solicitudes %}
         <tr>
@@ -35,6 +36,7 @@
             <td>{{s.resumen_solicitud}}</td>
             <td>{{s.fecha_solicitud}}</td>
             <td><a href="{% url 'del_solicitud' s.id %}">Eliminar solicitud</a></td>
+            <td><a href="{% url 'add_presupuesto' s.id%}">Crear presupuesto</a></td>
         </tr>
         {% endfor %}
     </table>

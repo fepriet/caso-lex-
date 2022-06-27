@@ -18,4 +18,7 @@ urlpatterns = [
     path('panel_tecnico', views.panel_tecnico, name='panel_tecnico'),
     path('del_contrato/<id>', views.del_contrato, name='del_contrato'),
     path('mod_contrato/<id>', views.mod_contrato, name='mod_contrato'),
+    path('add_presupuesto/<id>', views.add_presupuesto, name='add_presupuesto'),
+    path('aceptar_presupuesto/<id>', views.aceptar_presupuesto, name='aceptar_presupuesto'),
+    path('rechazar_presuesto/<id>', views.rechazar_presupuesto, name='rechazar_presupuesto'),
 ]

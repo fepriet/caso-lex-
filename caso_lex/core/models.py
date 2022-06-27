@@ -141,5 +141,5 @@ class EstadoPresupuesto(models.Model):
 
 class Presupuesto(models.Model):
     solicitud = models.ForeignKey(SolicitudServicio, on_delete=models.CASCADE)
-    estado = models.ForeignKey(EstadoPresupuesto, on_delete=models.CASCADE)
+    estado = models.ForeignKey(EstadoPresupuesto, on_delete=models.CASCADE, default=2)
     valor = models.IntegerField()
