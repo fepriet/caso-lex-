@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import date
+from dateutil.relativedelta import relativedelta
 
 # Create your models here.
 class Nacionalidad(models.Model):
@@ -75,9 +76,22 @@ class Contrato(models.Model):
     valor = models.IntegerField(verbose_name="Valor total del contato", null=True)
     archivo_contrato = models.FileField(verbose_name="Archivo del contrato", blank=True)
     nombre_contrato = models.CharField(max_length=100, verbose_name="Nombre del tipo de contrato")
+    cuotas_contrato = models.IntegerField()
 
     def __str__(self):
         return self.nombre_contrato
+    
+    #Este metodo genera las cuotas dado un valor y un numero de cuotas
+    def generar_cuotas(self):
+        for ct in range(self.cuotas_contrato):
+            valor_cuota = round(self.valor/self.cuotas_contrato)
+            fecha = date.today()
+            fecha.replace(day=25)
+            fecha = fecha + relativedelta(months=+(ct+1))
+            cuota_add = Cuotas.objects.create(valor=valor_cuota, fecha_vencimiento=fecha)
+            detalle = DetalleCuotas(cuota=cuota_add, contrato=self, pagado=False)
+            detalle.save()
+
 
 class Cuotas(models.Model):
     valor = models.IntegerField(verbose_name="Valor de la cuota")
@@ -89,7 +103,7 @@ class Cuotas(models.Model):
 class DetalleCuotas(models.Model):
     cuota = models.ForeignKey(Cuotas, on_delete=models.CASCADE)
     contrato = models.ForeignKey(Contrato, on_delete=models.CASCADE)
-    pagado = models.BooleanField(verbose_name="Se encuentra o no pagada la cuota")
+    pagado = models.BooleanField(verbose_name="Se encuentra o no pagada la cuota", default=False)
 
 class Corte(models.Model):
     nombre = models.CharField(max_length=150, verbose_name="Nombre de la corte")
