@@ -254,6 +254,37 @@ def rechazar_presupuesto(request, id):
     presupuesto.save()
     return redirect('panel')
 
+def listado_causas(request):
+    if request.user.cliente.is_abogado:
+        causas = Causa.objects.all()
+    else:
+        causas = causas = Causa.objects.all().filter(clientes__usuario__id=request.user.id)
+    datos = {
+        'causas' : causas
+    }
+    return render(request, 'listado_causas.html', datos)
+
+def listado_contratos(request):
+    contratos = Contrato.objects.all()
+    datos = {
+        'contratos' : contratos
+    }
+    return render(request, 'listado_contratos.html', datos)
+
+def listado_presupuestos(request):
+    presupuestos = Presupuesto.objects.all()
+    datos = {
+        'presupuestos' : presupuestos
+    }
+    return render(request, 'listado_presupuestos.html', datos)
+
+def listado_solicitudes(request):
+    solicitudes = SolicitudServicio.objects.all()
+    datos = {
+        'solicitudes': solicitudes
+    }
+    return render(request, 'listado_solicitudes.html', datos)
+
 #View para eliminar todos los usuarios
 #def borrar_clientes(request):
  #   User.objects.all().delete()

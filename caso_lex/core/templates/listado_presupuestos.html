@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %} Añadir causa {% endblock %}
+{% block content %}
+{% load static %}
+
+<table class="table table-striped">
+    <tr>
+        <th>ID Presupuesto</th>
+        <th>Solicitud</th>
+        <th>Valor</th>
+        <th>Aprobar</th>
+        <th>Rechazar</th>
+    </tr>
+    {% for pr in presupuestos%}
+    <tr>
+        <td>{{pr.id}}</td>
+        <td>{{pr.solicitud}}</td>
+        <td>{{pr.valor}}</td>
+        <td><a href="{% url 'aceptar_presupuesto' pr.id %}">Aprobar</a></td>
+        <td><a href="{% url 'rechazar_presupuesto' pr.id %}">Rechazar</a></td>
+    </tr>
+    {% endfor %}
+</table>
+</table>
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+{% endblock%}

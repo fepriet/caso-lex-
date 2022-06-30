@@ -21,4 +21,8 @@ urlpatterns = [
     path('add_presupuesto/<id>', views.add_presupuesto, name='add_presupuesto'),
     path('aceptar_presupuesto/<id>', views.aceptar_presupuesto, name='aceptar_presupuesto'),
     path('rechazar_presuesto/<id>', views.rechazar_presupuesto, name='rechazar_presupuesto'),
+    path('causas', views.listado_causas, name='listado_causas'),
+    path('contratos', views.listado_contratos, name='listado_contratos'),
+    path('presupuestos', views.listado_presupuestos, name='listado_presupuestos'),
+    path('solicitudes', views.listado_solicitudes, name='listado_solicitudes'),
 ]

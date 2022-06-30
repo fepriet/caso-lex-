@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %} Añadir causa {% endblock %}
+{% block content %}
+{% load static %}
+
+<table class="table table-striped">
+    <tr>
+        <th>ID solicitud</th>
+        <th>Resumen solicitud</th>
+        <th>Fecha de ingreso</th>
+        <th>Eliminar</th>
+        <th>Crear presupuesto</th>
+    </tr>
+    {% for s in solicitudes %}
+    <tr>
+        <td>{{s.id}}</td>
+        <td>{{s.resumen_solicitud}}</td>
+        <td>{{s.fecha_solicitud}}</td>
+        <td><a href="{% url 'del_solicitud' s.id %}">Eliminar solicitud</a></td>
+        <td><a href="{% url 'add_presupuesto' s.id%}">Crear presupuesto</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+{% endblock%}

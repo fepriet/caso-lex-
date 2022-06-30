@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} Añadir causa {% endblock %}
+{% block content %}
+{% load static %}
+
+<table class="table table-striped">
+    <tr>
+        <th>Caratulado</th>
+        <th>Rol</th>
+        <th>Fecha de Ingreso</th>
+        <th>Estado</th>
+        <th>Tribunal</th>
+    </tr>
+    {% for c in causas %}
+    <tr>
+        <td><a href="{% url 'causa' c.id %}">{{c.caratulado}}</a></td>
+        <td>{{c.rol}}</td>
+        <td>{{c.fecha_ingreso}}</td>
+        <td>{{c.estado}}</td>
+        <td>{{c.tribunal}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+{% endblock%}
