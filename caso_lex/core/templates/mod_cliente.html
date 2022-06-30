@@ -1,8 +1,10 @@
-<body>
+{% extends "base.html" %}
+{% block title %} Añadir causa {% endblock %}
+{% block content %}
     <form method="POST">
         {% csrf_token %}
         {{form_usuario.as_p}}
         {{form_cliente.as_p}}
         <input type="submit" class="btn btn-danger" id="update" value="Actualizar los campos">
     </form>
-</body>
+{% endblock%}

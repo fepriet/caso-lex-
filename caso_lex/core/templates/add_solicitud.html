@@ -1,13 +1,8 @@
+{% extends "base.html" %}
+{% block title %} Añadir causa {% endblock %}
+{% block content %}
 {% load static %}
-<!DOCTYPE html>
-<html>
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" />
-</head>
-
-<body>
     <nav class="navbar">
         <div class="container-fluid">
             <ul class="navbar-nav">
@@ -25,6 +20,4 @@
         <input type="submit" class="btn" id="add_solicitud" value="Ingresar nueva Solicitud">
     </form>
     <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
-</body>
-
-</html>
+{% endblock%}
